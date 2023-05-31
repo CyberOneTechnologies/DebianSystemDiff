@@ -13,7 +13,7 @@ def catalog_files(path):
                 file_size = os.path.getsize(file_path)
                 file_owner = os.stat(file_path).st_uid
                 catalog.append((file_path, file_size, file_owner))
-            except FileNotFoundError:
+            except (FileNotFoundError, OSError):
                 pass
     return catalog
 
