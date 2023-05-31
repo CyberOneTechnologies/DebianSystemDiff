@@ -26,8 +26,6 @@
 ####################################################################################
 
 
-#!/bin/bash
-
 # Script to set up the DebianSystemDiff program on a Debian-based system
 
 # Define the target installation directory
@@ -41,11 +39,28 @@ sudo mkdir -p $INSTALL_DIR
 echo -e "\033[1;32mMoving files to the installation directory...\033[0m"
 sudo cp -R ./* $INSTALL_DIR
 
-# Install dependencies
-echo -e "\033[1;32mInstalling dependencies...\033[0m"
-sudo apt-get update
-sudo apt-get install -y python3-pip
-sudo pip3 install -r $INSTALL_DIR/requirements.txt
+# Check if dependencies are installed
+echo -e "\033[1;32mChecking dependencies...\033[0m"
+if ! command -v pip3 &> /dev/null; then
+    echo -e "\033[1;32mInstalling python3-pip...\033[0m"
+    sudo apt-get update
+    sudo apt-get install -y python3-pip
+fi
+
+if ! pip3 show colorama &> /dev/null; then
+    echo -e "\033[1;32mInstalling colorama...\033[0m"
+    sudo pip3 install colorama
+fi
+
+if ! pip3 show psutil &> /dev/null; then
+    echo -e "\033[1;32mInstalling psutil...\033[0m"
+    sudo pip3 install psutil
+fi
+
+if ! pip3 show tabulate &> /dev/null; then
+    echo -e "\033[1;32mInstalling tabulate...\033[0m"
+    sudo pip3 install tabulate
+fi
 
 # Modify permissions
 echo -e "\033[1;32mModifying permissions...\033[0m"
