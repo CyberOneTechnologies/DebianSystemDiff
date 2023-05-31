@@ -68,7 +68,7 @@ echo -e "\033[1;32mModifying permissions...\033[0m"
 
 # Add cron job
 echo -e "\033[1;32mAdding cron job...\033[0m"
-echo "30 1 * * * root python3 /usr/bin/python3 $INSTALL_DIR/main.py" >> /etc/crontab
+(crontab -l 2>/dev/null; echo "30 1 * * * /usr/bin/python3 $INSTALL_DIR/main.py") | crontab -
 
 # Create log folder
 echo -e "\033[1;32mCreating log folder...\033[0m"
@@ -76,3 +76,4 @@ sudo mkdir -p /var/log/DebianSystemDiff
 
 # Display completion message
 echo -e "\033[1;32mSetup completed successfully!\033[0m"
+
