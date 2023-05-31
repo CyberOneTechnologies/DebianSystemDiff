@@ -9,9 +9,12 @@ def catalog_files(path):
     for root, dirs, files in os.walk(path):
         for file in files:
             file_path = os.path.join(root, file)
-            file_size = os.path.getsize(file_path)
-            file_owner = os.stat(file_path).st_uid
-            catalog.append((file_path, file_size, file_owner))
+            try:
+                file_size = os.path.getsize(file_path)
+                file_owner = os.stat(file_path).st_uid
+                catalog.append((file_path, file_size, file_owner))
+            except FileNotFoundError:
+                pass
     return catalog
 
 # Function to compare catalogs and generate the report
