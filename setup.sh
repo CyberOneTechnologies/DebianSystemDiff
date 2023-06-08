@@ -26,6 +26,13 @@
 ####################################################################################
 
 
+
+# Verify if the script is running as the root user
+if [[ $EUID -ne 0 ]]; then
+   echo -e "\033[1;31mPlease run this script as root. Use 'sudo su' to switch to the root user.\033[0m"
+   exit 1
+fi
+
 # Script to set up the DebianSystemDiff program on a Debian-based system
 
 # Define the target installation directory
@@ -33,33 +40,33 @@ INSTALL_DIR="/opt/DebianSystemDiff"
 
 # Create the installation directory if it doesn't exist
 echo -e "\033[1;32mCreating installation directory...\033[0m"
-sudo mkdir -p $INSTALL_DIR
+mkdir -p $INSTALL_DIR
 
 # Move the files to the installation directory
 echo -e "\033[1;32mMoving files to the installation directory...\033[0m"
-sudo cp -R ./* $INSTALL_DIR
+cp -R ./* $INSTALL_DIR
 
 # Check if dependencies are installed
 echo -e "\033[1;32mChecking dependencies...\033[0m"
 if ! command -v pip3 &> /dev/null; then
     echo -e "\033[1;32mInstalling python3-pip...\033[0m"
-    sudo apt-get update
-    sudo apt-get install -y python3-pip
+    apt-get update
+    apt-get install -y python3-pip
 fi
 
 if ! pip3 show colorama &> /dev/null; then
     echo -e "\033[1;32mInstalling colorama...\033[0m"
-    sudo pip3 install colorama
+    pip3 install colorama
 fi
 
 if ! pip3 show psutil &> /dev/null; then
     echo -e "\033[1;32mInstalling psutil...\033[0m"
-    sudo pip3 install psutil
+    pip3 install psutil
 fi
 
 if ! pip3 show tabulate &> /dev/null; then
     echo -e "\033[1;32mInstalling tabulate...\033[0m"
-    sudo pip3 install tabulate
+    pip3 install tabulate
 fi
 
 # Modify permissions
@@ -72,8 +79,7 @@ echo -e "\033[1;32mAdding cron job...\033[0m"
 
 # Create log folder
 echo -e "\033[1;32mCreating log folder...\033[0m"
-sudo mkdir -p /var/log/DebianSystemDiff
+mkdir -p /var/log/DebianSystemDiff
 
 # Display completion message
 echo -e "\033[1;32mSetup completed successfully!\033[0m"
-
